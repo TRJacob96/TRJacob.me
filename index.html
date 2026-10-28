@@ -11,23 +11,22 @@
   --text:#fff4e6; --muted:#ffd9b0;
   --btn1:#e5762a; --btn2:#ffb26b; --btn-text:#fff;
   box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg1:#b34700;--bg2:#7a2e00;--bg3:#3d1500}}
 :root[data-theme="dark"]{--bg1:#b34700;--bg2:#7a2e00;--bg3:#3d1500}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%;background:#6e2a00;overscroll-behavior:none}
 body{
   margin:0;min-height:100%;height:100%;overflow:hidden;color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
-  background:radial-gradient(ellipse at 30% 20%,var(--bg1),var(--bg2) 55%,var(--bg3));
   -webkit-user-select:none;user-select:none;
 }
+#bgGrad{position:fixed;left:0;top:0;right:0;bottom:0;z-index:-1;background:radial-gradient(ellipse at 30% 20%,var(--bg1),var(--bg2) 55%,var(--bg3))}
+@supports (height:100dvh){html,body{height:100dvh}}
 #bubbles{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 main{
   position:relative;z-index:1;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;justify-content:safe center;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  padding:24px 22px;text-align:center;
+  padding:calc(24px + env(safe-area-inset-top,0px)) 22px calc(24px + env(safe-area-inset-bottom,0px));text-align:center;
 }
 h1{
   margin:0;font-size:clamp(44px,13vw,84px);font-weight:800;letter-spacing:-.01em;
@@ -72,7 +71,7 @@ nav{display:flex;flex-direction:column;gap:14px;width:100%;max-width:340px}
 .mx-enter .mx-bar{animation:liftIn .6s cubic-bezier(.215,.61,.355,1) .14s backwards}
 @keyframes mxFade{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion: reduce){.mx-enter,.mx-enter .mx-top,.mx-enter .mx-bodyw,.mx-enter .mx-bar{animation:none}}
-#mxWrap{position:fixed;left:0;top:0;right:0;bottom:0;z-index:60;display:flex;flex-direction:column;background:linear-gradient(180deg,#1f1008,#120804);color:#fff4e6;-webkit-user-select:none;user-select:none}
+#mxWrap,#ufWrap{position:fixed;left:0;top:0;right:0;bottom:0;z-index:60;display:flex;flex-direction:column;background:linear-gradient(180deg,#1f1008,#120804);color:#fff4e6;-webkit-user-select:none;user-select:none}
 .mx-top{display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top,0px) + 12px) 14px 10px;border-bottom:1px solid rgba(255,160,80,.2);background:rgba(255,255,255,.03)}
 .mx-x{width:36px;height:36px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font:700 16px sans-serif;-webkit-appearance:none}
 .mx-title{font-size:19px;font-weight:800;letter-spacing:-.01em}
@@ -112,17 +111,18 @@ nav{display:flex;flex-direction:column;gap:14px;width:100%;max-width:340px}
 .mx-b{padding:11px 18px;border-radius:11px;border:0;background:linear-gradient(135deg,#e5762a,#ffb26b);color:#fff;font:800 14px system-ui,sans-serif;-webkit-appearance:none}
 .mx-b.ghost{background:rgba(255,255,255,.1);color:#f0e2d2}
 .mx-b[disabled]{opacity:.4}
-#mxToast{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 70px);transform:translateX(-50%);z-index:4;padding:9px 16px;border-radius:999px;background:rgba(0,0,0,.85);color:#fff;font:700 13px system-ui,sans-serif;opacity:0;transition:opacity .2s;pointer-events:none;max-width:92vw;text-align:center}
-#mxToast.on{opacity:1}
+#mxToast,#ufToast{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 70px);transform:translateX(-50%);z-index:4;padding:9px 16px;border-radius:999px;background:rgba(0,0,0,.85);color:#fff;font:700 13px system-ui,sans-serif;opacity:0;transition:opacity .2s;pointer-events:none;max-width:92vw;text-align:center}
+#mxToast.on,#ufToast.on{opacity:1}
 #lightFade{position:fixed;left:0;top:0;right:0;bottom:0;z-index:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 30% 20%,#ffe6c4,#ffbb78 55%,#f59a45)}
 #beatGlow{position:fixed;left:0;top:0;right:0;bottom:0;z-index:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 42%,rgba(255,190,110,.7),rgba(255,120,40,.28) 45%,transparent 72%)}
 main{will-change:transform;--px:0;--py:0}
 h1{translate:calc(var(--px) * -26px) calc(var(--py) * -18px)}
 #tagline{translate:calc(var(--px) * -18px) calc(var(--py) * -12px)}
-nav,#scriptsView,#gamesView,#toolsView{translate:calc(var(--px) * -10px) calc(var(--py) * -7px)}
+nav,#scriptsView,#gamesView,#toolsView,#filesView{translate:calc(var(--px) * -10px) calc(var(--py) * -7px)}
 nav .btn:nth-child(2){translate:calc(var(--px) * -3px) calc(var(--py) * -2px)}
 nav .btn:nth-child(3){translate:calc(var(--px) * -6px) calc(var(--py) * -4px)}
 nav .btn:nth-child(4){translate:calc(var(--px) * -9px) calc(var(--py) * -6px)}
+nav .btn:nth-child(5){translate:calc(var(--px) * -11px) calc(var(--py) * -8px)}
 main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba(50,15,0,.35),inset 0 2px 0 rgba(255,255,255,.55)}
 #toolsView{width:100%;max-width:340px}
 #toolsView .back{margin-top:14px}
@@ -196,9 +196,23 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
   .btn{padding:12px 16px;font-size:17px}
 }
 @media (prefers-reduced-motion: reduce){h1{animation:none}}
+.card.game .banner.ufb{background:radial-gradient(circle at 85% 20%,rgba(255,138,61,.6),transparent 55%),linear-gradient(135deg,#1c1030,#4a1d6e 60%,#a4421f)}
+.banner.ufb .hx{color:#ffc9a0}
+#filesView{width:100%;max-width:340px}
+#filesView .back{margin-top:14px}
+@media (orientation:landscape){#filesView{max-width:420px}nav .btn:last-child:nth-child(odd){grid-column:1 / -1}}
+.files-empty{display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 4px 8px}
+.files-empty svg{width:64px;height:64px;fill:rgba(255,255,255,.85);filter:drop-shadow(0 4px 10px rgba(50,15,0,.4));margin-bottom:10px}
+.files-empty p{margin:0;font-size:16px;font-weight:500;line-height:1.45;color:var(--muted)}
+a.hl{display:inline-block;padding:1px 9px;border-radius:9px;color:#fff;font-weight:800;text-decoration:none;text-shadow:0 1px 2px rgba(70,25,0,.5);background:linear-gradient(135deg,#e5762a,#ffb26b);box-shadow:0 3px 10px rgba(50,15,0,.3)}
+.mx-exp.ghost{background:rgba(255,255,255,.12)}
+#zoomBtn{position:fixed;z-index:6;top:calc(env(safe-area-inset-top,0px) + 14px);right:calc(env(safe-area-inset-right,0px) + 70px);width:46px;height:46px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:linear-gradient(135deg,var(--btn1),var(--btn2));color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(50,15,0,.35),inset 0 2px 0 rgba(255,255,255,.4);-webkit-appearance:none}
+#zoomBtn:active{transform:scale(.93)}
+#zoomBtn svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 2px rgba(70,25,0,.5))}
 </style>
 </head>
 <body>
+<div id="bgGrad"></div>
 <div id="lightFade"></div>
 <canvas id="bubbles"></canvas>
 <div id="beatGlow"></div>
@@ -206,8 +220,9 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
   <h1>TRJacob</h1>
   <div id="tagline"><span id="tagtext"></span></div>
   <nav id="mainNav">
-    <a class="btn row" href="#" data-view="stuff"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2h-8l-2-2z"/></svg>my stuff</a>
+    <a class="btn row" href="#" data-view="stuff"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg>my stuff</a>
     <a class="btn row" href="#" data-view="tools"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>tools</a>
+    <a class="btn row" href="#" data-view="files"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2h-8l-2-2z"/></svg>files</a>
     <a class="btn row" href="#" data-view="scripts"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>scripts</a>
     <a class="btn row" href="#" data-view="games"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>my games</a>
   </nav>
@@ -217,6 +232,16 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
     <a class="btn row soon" href="#" data-name="discord"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.317 4.37a19.79 19.79 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.74 19.74 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.1 13.1 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.3 12.3 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.84 19.84 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>Discord <small>coming soon</small></a>
     <a class="btn" href="#" data-view="main">← back</a>
   </nav>
+  <section id="filesView" class="hidden">
+    <div class="card">
+      <div class="card-title">Files</div>
+      <div class="files-empty">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2h-8l-2-2z"/></svg>
+        <p>nothing here yet! wait until I link sum in my <a class="hl" href="https://youtube.com/@tr-jacob.x?si=qzHVLsdWrPVzEN8G" target="_blank" rel="noopener">videos.</a></p>
+      </div>
+    </div>
+    <a class="btn back" href="#" data-view="main">← back</a>
+  </section>
   <section id="scriptsView" class="hidden">
     <div class="card">
       <div class="card-title">EpicExplorer</div>
@@ -254,6 +279,15 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
         <a class="btn row" href="#" id="openMx"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg><span>open editor</span></a>
       </div>
     </div>
+    <div class="card game">
+      <div class="banner mxb ufb"><span class="hx">{ "file": "edit.any" }</span><span class="wm">UNIVERSAL</span></div>
+      <div class="info">
+        <div class="card-title">Universal File Editor</div>
+        <div class="card-desc">Edit file names and strings in any code or text file.</div>
+        <div class="chips2"><span>Rename</span><span>Strings</span><span>Any language</span><span>Zip export</span></div>
+        <a class="btn row" href="#" id="ufBtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg><span>open editor</span></a>
+      </div>
+    </div>
     <a class="btn back" href="#" data-view="main">← back</a>
   </section>
 </main>
@@ -261,6 +295,10 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
 <button id="speaker" class="hidden" aria-label="toggle music">
   <svg id="icOn" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
   <svg id="icOff" class="hidden" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 12A4.5 4.5 0 0014 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.8 8.8 0 0021 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 003.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+</button>
+<button id="zoomBtn" aria-label="toggle camera zoom">
+  <svg id="zmOn" viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="1.8" width="13" height="20.4" rx="3"/><circle cx="11.4" cy="10.6" r="3.3"/><path d="M13.8 13l2.4 2.4M9.9 10.6h3M11.4 9.1v3"/></svg>
+  <svg id="zmOff" class="hidden" viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="1.8" width="13" height="20.4" rx="3"/><circle cx="11.4" cy="10.6" r="3.3"/><path d="M13.8 13l2.4 2.4M9.9 10.6h3M11.4 9.1v3"/><path d="M3.5 3.5l17 17M20.5 3.5l-17 17" stroke-width="2.2"/></svg>
 </button>
 <div id="musicModal" class="hidden">
   <div class="box">
@@ -290,9 +328,40 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
       <button class="mx-more hidden" id="mxMore">show more</button>
     </div>
   </div>
-  <div class="mx-bar hidden" id="mxBar"><span id="mxEdits">0 edits</span><button class="mx-exp" id="mxExport" disabled>export metadata</button></div>
+  <div class="mx-bar hidden" id="mxBar"><span id="mxEdits">0 edits</span><button class="mx-exp ghost" id="mxExportZip" disabled>zip</button><button class="mx-exp" id="mxExport" disabled>export .dat</button></div>
   <div class="mx-sheetw hidden" id="mxSheet"><div class="mx-sheet"><div class="mx-st" id="mxEt">Edit</div><textarea id="mxTa" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea><div class="mx-bytes" id="mxBytes"></div><div class="mx-btns"><button class="mx-b ghost" id="mxReset">reset</button><button class="mx-b ghost" id="mxCancel">cancel</button><button class="mx-b" id="mxSave">save</button></div></div></div>
   <div id="mxToast"></div>
+</div>
+<div id="ufWrap" class="hidden">
+  <div class="mx-top"><button class="mx-x" id="ufClose" aria-label="close">✕</button><div class="mx-title">Universal <b>File Editor</b></div></div>
+  <div class="mx-bodyw" id="ufBody">
+    <div id="ufLanding">
+      <div class="mx-up-card">
+        <p>Pick any code or text files from your device. They're read right here on your phone and never uploaded anywhere.</p>
+        <label class="mx-up" for="ufFile">choose files</label>
+        <input type="file" id="ufFile" multiple style="display:none">
+        <div class="mx-err hidden" id="ufErr"></div>
+      </div>
+    </div>
+    <div id="ufFilesPane" class="hidden">
+      <div class="mx-count" id="ufFilesCount"></div>
+      <div id="ufFileList"></div>
+      <label class="mx-more" for="ufFile" style="text-align:center">add more files</label>
+    </div>
+    <div id="ufFilePane" class="hidden">
+      <div class="mx-info" id="ufFInfo"></div>
+      <div class="mx-seg"><button id="ufBack">← files</button><button id="ufRename">rename</button><button id="ufEditAll">edit text</button></div>
+      <div class="mx-seg" id="ufMode"><button data-m="str" class="on">Strings</button><button data-m="line">Lines</button></div>
+      <div class="mx-chips" id="ufFilt"><button data-f="all" class="on">All</button><button data-f="len">Most characters</button></div>
+      <input class="mx-in" id="ufSearch" placeholder="search…" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <div class="mx-count" id="ufCount"></div>
+      <div id="ufList"></div>
+      <button class="mx-more hidden" id="ufMore">show more</button>
+    </div>
+  </div>
+  <div class="mx-bar hidden" id="ufBar"><span id="ufStat">0 files</span><button class="mx-exp ghost" id="ufExportZip" disabled>zip</button><button class="mx-exp" id="ufExport" disabled>export</button></div>
+  <div class="mx-sheetw hidden" id="ufSheet"><div class="mx-sheet"><div class="mx-st" id="ufEt">Edit</div><input class="mx-in hidden" id="ufNameIn" style="margin:0 0 8px" autocapitalize="off" spellcheck="false"><textarea id="ufTa" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea><div class="mx-bytes" id="ufBytes"></div><div class="mx-btns"><button class="mx-b ghost" id="ufCancel">cancel</button><button class="mx-b" id="ufSave">save</button></div></div></div>
+  <div id="ufToast"></div>
 </div>
 <div id="gameWrap" class="hidden"><button id="gameExit" aria-label="exit game">✕</button><iframe id="gameFrame" title="Pixel League" allow="fullscreen; autoplay; gamepad; accelerometer; gyroscope"></iframe></div>
 <script type="text/plain" id="eclair-src">(function () {
@@ -638,7 +707,7 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
 
   /* ---------- buttons (placeholder until you give me links) ---------- */
   var toast = document.getElementById("toast"), tt;
-  var views = { main: document.getElementById("mainNav"), stuff: document.getElementById("stuffNav"), scripts: document.getElementById("scriptsView"), games: document.getElementById("gamesView"), tools: document.getElementById("toolsView") };
+  var views = { main: document.getElementById("mainNav"), stuff: document.getElementById("stuffNav"), scripts: document.getElementById("scriptsView"), games: document.getElementById("gamesView"), files: document.getElementById("filesView"), tools: document.getElementById("toolsView") };
   function showView(name) {
     for (var k in views) views[k].classList.toggle("hidden", k !== name);
     var v = views[name];
@@ -786,7 +855,15 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
   var B_A = [100,91,74,57,91,86,100,93,74,68,91,92,100,92,74,89,86,100,93,69,68,93,91,88,80,61,89,95,100,95,74,88,90,100,89,72,69,91,92,100,90,96,68,100,93,100,88,89,91,90,93,91,91,89,90,85,91,91,93,85,89,88,100,93,100,91,74,57,90,91,100,92,70,68,88,88,100,92,73,91,89,100,93,72,68,92,92,86,79,61,89,96,100,95,73,89,89,100,94,72,69,92,92,100,90,94,67,100,92,100,88,88,91,91,94,91,88,89,89,88,90,87,91,86,93,88,100,91,100,91,75,58,91,93,100,92,68,68,92,90,100,92,73,90,90,100,91,73,68,91,91,87,79,61,89,94,100,92,73,90,92,100,92,75,68,89,89,100,86,96,68,100,93,100,89,88,91,94,90,89,90,88,90,87,93,91,92,85,90,89,100,92,100,92,74,57,90,90,100,92,68,68,92,89,100,93,76,90,90,100,93,70,68,91,91,88,80,61,89,96,100,91,73,88,90,100,91,74,69,90,92,100,89,97,68,100,92,100,89,87,91,92,92,90,90,90,88,85,91,90,93,86,89,88,100,92,100,91,72,57,91,90,100,94,70,68,91,90,100,93,75,90,91,100,92,70,69,90,92,87,79,62,89,96,100,93,73,91,89,100,90,74,69,93,92,100,90,95,68,100,93,100,89,88,90,89,93,91,89,89,90,87,92,87,91,84,91,90,100,91,100,89,73,82,78,100,69];
   var B_LEAD = 0;   // seconds; positive pulses a touch earlier. Tune with ?sync=-30 or ?sync=30 (ms) on the page address.
   try { var sp = parseFloat(new URLSearchParams(location.search).get("sync")); if (isFinite(sp)) B_LEAD = sp / 1000; } catch (e) {}
-  var beatEnv = 0, beatScale = 1, aOff = 0, aHave = false;
+  var beatEnv = 0, beatScale = 1, aOff = 0, aHave = false, zoomOn = true;
+  var zoomBtn = document.getElementById("zoomBtn"), zmOn = document.getElementById("zmOn"), zmOff = document.getElementById("zmOff");
+  zoomBtn.addEventListener("click", function () {
+    zoomOn = !zoomOn;
+    zmOn.classList.toggle("hidden", !zoomOn); zmOff.classList.toggle("hidden", zoomOn);
+    toast.textContent = zoomOn ? "camera zoom on" : "camera zoom off";
+    toast.classList.add("on"); clearTimeout(tt);
+    tt = setTimeout(function () { toast.classList.remove("on"); }, 1600);
+  });
   var mainEl = document.querySelector("main"), glowEl = document.getElementById("beatGlow");
   ["pause", "playing", "seeked", "waiting"].forEach(function (ev) { bgm.addEventListener(ev, function () { aHave = false; }); });
   function beatTick(now) {
@@ -805,7 +882,7 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
       }
     }
     beatEnv = target >= beatEnv ? target : beatEnv + (target - beatEnv) * 0.4;
-    beatScale = 1 + 0.018 * beatEnv;
+    beatScale = zoomOn ? 1 + 0.018 * beatEnv : 1;
     glowEl.style.opacity = (beatEnv * 0.22).toFixed(3);
   }
   // tilt moves the whole page: the plane leans in 3D while title, buttons and shadows slide by different amounts
@@ -950,21 +1027,69 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
     for (var i = 0; i < u8.length; i++) r = mxCT[(r ^ u8[i]) & 255] ^ (r >>> 8);
     return (r ^ 0xFFFFFFFF) >>> 0;
   }
-  // single-file zip, stored (no compression), so the .dat survives the download allow-list
-  function mxZip(name, data) {
-    var nb = mxTE.encode(name), crc = mxCrc(data), n = data.length, DATE = 0x5821;
-    var lh = new Uint8Array(30 + nb.length), l = new DataView(lh.buffer);
-    l.setUint32(0, 0x04034b50, true); l.setUint16(4, 20, true); l.setUint16(12, DATE, true);
-    l.setUint32(14, crc, true); l.setUint32(18, n, true); l.setUint32(22, n, true); l.setUint16(26, nb.length, true); lh.set(nb, 30);
-    var cd = new Uint8Array(46 + nb.length), c = new DataView(cd.buffer);
-    c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(14, DATE, true);
-    c.setUint32(16, crc, true); c.setUint32(20, n, true); c.setUint32(24, n, true); c.setUint16(28, nb.length, true); cd.set(nb, 46);
-    var eo = new Uint8Array(22), e = new DataView(eo.buffer);
-    e.setUint32(0, 0x06054b50, true); e.setUint16(8, 1, true); e.setUint16(10, 1, true); e.setUint32(12, cd.length, true); e.setUint32(16, lh.length + n, true);
-    var out = new Uint8Array(lh.length + n + cd.length + 22);
-    out.set(lh, 0); out.set(data, lh.length); out.set(cd, lh.length + n); out.set(eo, lh.length + n + cd.length);
+  /* ---------- Universal File Editor core ---------- */
+  function ufIsBinary(u8) { var n = Math.min(u8.length, 8000); for (var i = 0; i < n; i++) if (u8[i] === 0) return true; return false; }
+  // quoted strings in code/text: returns ranges of the text BETWEEN the quotes
+  function ufScan(text) {
+    var out = [], i = 0, n = text.length;
+    while (i < n && out.length < 30000) {
+      var q = text.charAt(i);
+      if (q === '"' || q === "'" || q === "`") {
+        if (q === "'" && i > 0 && /[A-Za-z0-9]/.test(text.charAt(i - 1))) { i++; continue; }   // apostrophe inside a word
+        var j = i + 1, ok = false;
+        while (j < n) {
+          var d = text.charAt(j);
+          if (d === "\\") { j += 2; continue; }
+          if (d === q) { ok = true; break; }
+          if (d === "\n" && q !== "`") break;
+          j++;
+        }
+        if (ok) { out.push({ a: i + 1, b: j }); i = j + 1; continue; }
+      }
+      i++;
+    }
     return out;
   }
+  // non-empty lines as ranges
+  function ufLines(text) {
+    var out = [], s = 0, n = text.length;
+    for (var i = 0; i <= n; i++) {
+      if (i === n || text.charCodeAt(i) === 10) {
+        var e = i; if (e > s && text.charCodeAt(e - 1) === 13) e--;
+        if (/\S/.test(text.slice(s, e))) out.push({ a: s, b: e });
+        s = i + 1;
+      }
+    }
+    return out;
+  }
+  function ufSafeName(n) {
+    n = String(n).replace(/[\\\/:*?"<>|\u0000-\u001f]/g, "_").trim();
+    return (!n || n === "." || n === "..") ? "file" : n;
+  }
+
+  // zip with any number of files (stored, no compression)
+  function mxZipMany(entries) {
+    var parts = [], cds = [], off = 0, DATE = 0x5821;
+    entries.forEach(function (en) {
+      var nb = mxTE.encode(en.name), crc = mxCrc(en.data), n = en.data.length;
+      var lh = new Uint8Array(30 + nb.length), l = new DataView(lh.buffer);
+      l.setUint32(0, 0x04034b50, true); l.setUint16(4, 20, true); l.setUint16(6, 0x0800, true); l.setUint16(12, DATE, true);
+      l.setUint32(14, crc, true); l.setUint32(18, n, true); l.setUint32(22, n, true); l.setUint16(26, nb.length, true); lh.set(nb, 30);
+      var cd = new Uint8Array(46 + nb.length), c = new DataView(cd.buffer);
+      c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true); c.setUint16(14, DATE, true);
+      c.setUint32(16, crc, true); c.setUint32(20, n, true); c.setUint32(24, n, true); c.setUint16(28, nb.length, true); c.setUint32(42, off, true); cd.set(nb, 46);
+      parts.push(lh, en.data); cds.push(cd); off += lh.length + n;
+    });
+    var cdSize = 0; cds.forEach(function (c) { cdSize += c.length; });
+    var eo = new Uint8Array(22), e = new DataView(eo.buffer);
+    e.setUint32(0, 0x06054b50, true); e.setUint16(8, entries.length, true); e.setUint16(10, entries.length, true); e.setUint32(12, cdSize, true); e.setUint32(16, off, true);
+    var out = new Uint8Array(off + cdSize + 22), p = 0;
+    parts.forEach(function (x) { out.set(x, p); p += x.length; });
+    cds.forEach(function (x) { out.set(x, p); p += x.length; });
+    out.set(eo, p);
+    return out;
+  }
+  function mxZip(name, data) { return mxZipMany([{ name: name, data: data }]); }
 
   /* ---------- MetadataX editor UI ---------- */
   var mxWrap = document.getElementById("mxWrap"), mxBody = document.getElementById("mxBody");
@@ -1007,10 +1132,11 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
     return idx;
   }
   function mxEditCount() { return MD ? MD.litEdit.size + MD.nameEdit.size : 0; }
+  var mxExportZipBtn = document.getElementById("mxExportZip");
   function mxBarUpdate() {
     var n = mxEditCount();
     mxEditsEl.textContent = n + (n === 1 ? " edit" : " edits");
-    mxExportBtn.disabled = n === 0;
+    mxExportBtn.disabled = n === 0; mxExportZipBtn.disabled = n === 0;
   }
   function mxDraw() {
     var ord = mxOrderArr, n = Math.min(mxShown, ord.length), h = "", map = mxSrc === "lit" ? MD.litEdit : MD.nameEdit;
@@ -1101,22 +1227,219 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
     mxSheet.classList.add("hidden"); mxBarUpdate(); mxRedraw(); mxSay("reset to original");
   });
 
-  mxExportBtn.addEventListener("click", function () {
+  function mxDoExport(asZip) {
     if (!MD || !mxEditCount()) return;
-    mxExportBtn.disabled = true; mxSay("building file\u2026");
-    setTimeout(function () {
-      var zip;
-      try { zip = mxZip("global-metadata.dat", mxBuild(MD)); } catch (e) { mxSay("export failed: " + (e && e.message || e)); mxBarUpdate(); return; }
-      var dlp = (window.claude && window.claude.use) ? window.claude.use("downloads") : Promise.resolve(null);
-      dlp.then(function (dl) {
-        if (!dl) { mxSay("Downloads aren't available in this view"); return; }
-        return dl.save({ filename: "global-metadata-edited.zip", data: new Blob([zip]) }).then(function () {
-          mxSay("exported. Unzip it to get global-metadata.dat");
-        });
-      }).catch(function (e) {
-        mxSay(e && e.code === "declined" ? "export cancelled" : "export failed: " + ((e && e.message) || e));
-      }).then(mxBarUpdate);
-    }, 30);
+    mxExportBtn.disabled = true; mxExportZipBtn.disabled = true; mxSay("building file\u2026");
+    var blob, name;
+    try {
+      var bytes = mxBuild(MD);
+      if (asZip) { blob = new Blob([mxZip("global-metadata.dat", bytes)], { type: "application/zip" }); name = "global-metadata-edited.zip"; }
+      else { blob = new Blob([bytes], { type: "application/octet-stream" }); name = "global-metadata.dat"; }
+    } catch (e) { mxSay("export failed: " + (e && e.message || e)); mxBarUpdate(); return; }
+    saveFile(name, blob).then(function (r) { mxSay(saveMsg(r, "global-metadata.dat", asZip)); }).then(mxBarUpdate);
+  }
+  mxExportBtn.addEventListener("click", function () { mxDoExport(false); });
+  mxExportZipBtn.addEventListener("click", function () { mxDoExport(true); });
+
+  /* ---------- saving files: works in every view ---------- */
+  // The Claude viewer's download only accepts certain file types (no .dat), so .dat goes to the share sheet, then a plain link.
+  // Types the viewer accepts try its download first.
+  var CAP_EXT = /\.(gif|png|jpe?g|webp|mp4|webm|mov|txt|json|md|docx|pptx|epub|csv|ttf|html|svg|pdf|xlsx|zip|fig)$/i;
+  function saveFile(filename, blob) {
+    function viaLink() {
+      try {
+        var url = URL.createObjectURL(blob), a = document.createElement("a");
+        a.href = url; a.download = filename; a.style.display = "none";
+        document.body.appendChild(a); a.click();
+        setTimeout(function () { document.body.removeChild(a); URL.revokeObjectURL(url); }, 30000);
+        return "link";
+      } catch (e) { return "failed"; }
+    }
+    function viaShare() {
+      try {
+        var f = new File([blob], filename, { type: blob.type || "application/octet-stream" });
+        if (navigator.canShare && navigator.share && navigator.canShare({ files: [f] })) {
+          return navigator.share({ files: [f], title: filename }).then(function () { return "shared"; }, function (e) { return e && e.name === "AbortError" ? "declined" : viaLink(); });
+        }
+      } catch (e) {}
+      return Promise.resolve(viaLink());
+    }
+    if (!CAP_EXT.test(filename)) return viaShare();
+    var cap = (window.claude && window.claude.use) ? window.claude.use("downloads") : Promise.resolve(null);
+    return Promise.resolve(cap).then(function (dl) {
+      if (!dl) return viaShare();
+      return dl.save({ filename: filename, data: blob }).then(function () { return "saved"; }, function (e) { return e && e.code === "declined" ? "declined" : viaShare(); });
+    }, function () { return viaShare(); });
+  }
+  function saveMsg(r, what, zipped) {
+    return r === "saved" ? "exported " + what + (zipped ? ". Unzip it to use it" : "") :
+      r === "shared" ? "shared. Choose Save to Files" + (zipped ? ", then unzip it" : "") :
+      r === "link" ? "download started. If nothing happened, tap zip instead" :
+      r === "declined" ? "export cancelled" : "couldn't export from this view. Try zip";
+  }
+
+  /* ---------- Universal File Editor UI ---------- */
+  var UF = { files: [], cur: -1, mode: "str", filt: "all", q: "", shown: 150, items: [] };
+  var ufWrap = document.getElementById("ufWrap"), ufBody = document.getElementById("ufBody");
+  var ufLanding = document.getElementById("ufLanding"), ufFilesPane = document.getElementById("ufFilesPane"), ufFilePane = document.getElementById("ufFilePane");
+  var ufErr = document.getElementById("ufErr"), ufFileList = document.getElementById("ufFileList"), ufFilesCount = document.getElementById("ufFilesCount");
+  var ufFInfo = document.getElementById("ufFInfo"), ufList = document.getElementById("ufList"), ufCount = document.getElementById("ufCount");
+  var ufMore = document.getElementById("ufMore"), ufSearch = document.getElementById("ufSearch"), ufBar = document.getElementById("ufBar");
+  var ufStat = document.getElementById("ufStat"), ufExportBtn = document.getElementById("ufExport"), ufToastEl = document.getElementById("ufToast");
+  var ufSheet = document.getElementById("ufSheet"), ufTa = document.getElementById("ufTa"), ufNameIn = document.getElementById("ufNameIn");
+  var ufEt = document.getElementById("ufEt"), ufBytes = document.getElementById("ufBytes"), ufSaveBtn = document.getElementById("ufSave");
+  var ufEditing = null, ufTT, ufST;
+
+  function ufSay(m) { ufToastEl.textContent = m; ufToastEl.classList.add("on"); clearTimeout(ufTT); ufTT = setTimeout(function () { ufToastEl.classList.remove("on"); }, 2400); }
+  function ufExt(n) { var i = n.lastIndexOf("."); return i > 0 ? n.slice(i + 1).toLowerCase() : "file"; }
+  function ufKB(n) { return n < 1024 ? n + " B" : n < 1048576 ? (n / 1024).toFixed(1) + " KB" : (n / 1048576).toFixed(1) + " MB"; }
+  function ufCurFile() { return UF.files[UF.cur]; }
+  function ufShow(pane) {
+    ufLanding.classList.toggle("hidden", pane !== "land");
+    ufFilesPane.classList.toggle("hidden", pane !== "files");
+    ufFilePane.classList.toggle("hidden", pane !== "file");
+    ufBar.classList.toggle("hidden", pane === "land");
+    ufBody.scrollTop = 0;
+    var el = pane === "files" ? ufFilesPane : pane === "file" ? ufFilePane : null;
+    if (el) { el.classList.remove("enter"); void el.offsetWidth; el.classList.add("enter"); }
+  }
+  var ufExportZipBtn = document.getElementById("ufExportZip");
+  function ufBarUpdate() {
+    var ed = UF.files.filter(function (f) { return f.dirty || f.name !== f.orig; }).length;
+    ufStat.textContent = UF.files.length + (UF.files.length === 1 ? " file" : " files") + " \u00B7 " + ed + " edited";
+    ufExportBtn.disabled = !UF.files.length; ufExportZipBtn.disabled = !UF.files.length;
+  }
+
+  function ufDrawFiles() {
+    var h = "";
+    UF.files.forEach(function (f, i) {
+      var ed = f.dirty || f.name !== f.orig;
+      h += '<div class="mx-row' + (ed ? " ed" : "") + '"><div class="mx-meta"><span>' + ufKB(f.u8.length) + "</span><span>." + mxEsc(ufExt(f.name)) + "</span>" + (f.binary ? '<span class="mx-badge" style="background:#8fd3ff">binary</span>' : "") + (ed ? '<span class="mx-badge">edited</span>' : "") + '</div><div class="mx-txt">' + mxEsc(f.name) + '</div><button class="mx-edit" data-a="open" data-i="' + i + '">' + PENCIL + 'edit</button> <button class="mx-edit" style="background:rgba(255,255,255,.12)" data-a="del" data-i="' + i + '">remove</button></div>';
+    });
+    ufFileList.innerHTML = h;
+    ufFilesCount.textContent = UF.files.length + (UF.files.length === 1 ? " file" : " files");
+    ufBarUpdate();
+  }
+  function ufItems() {
+    var f = ufCurFile(); if (!f || f.binary) return [];
+    var rs = UF.mode === "str" ? ufScan(f.text) : ufLines(f.text), q = UF.q.toLowerCase(), out = [];
+    for (var i = 0; i < rs.length; i++) {
+      if (q && f.text.slice(rs[i].a, rs[i].b).toLowerCase().indexOf(q) < 0) continue;
+      out.push({ a: rs[i].a, b: rs[i].b, n: i });
+    }
+    if (UF.filt === "len") out.sort(function (x, y) { return (y.b - y.a) - (x.b - x.a); });
+    return out;
+  }
+  function ufDraw() {
+    var f = ufCurFile(), n = Math.min(UF.shown, UF.items.length), h = "";
+    ufFInfo.innerHTML = "<b>" + mxEsc(f.name) + "</b><span>" + ufKB(f.u8.length) + " \u00B7 ." + mxEsc(ufExt(f.name)) + (f.binary ? " \u00B7 binary file (rename only)" : " \u00B7 " + f.text.length.toLocaleString() + " characters") + "</span>";
+    if (f.binary) { ufList.innerHTML = '<div class="mx-empty">This looks like a binary file, so its text can\u2019t be edited here. You can still rename it.</div>'; ufCount.textContent = ""; ufMore.classList.add("hidden"); return; }
+    for (var k = 0; k < n; k++) {
+      var it = UF.items[k], t = f.text.slice(it.a, it.b), pv = t.length > 240 ? t.slice(0, 240) + "\u2026" : t;
+      h += '<div class="mx-row"><div class="mx-meta"><span>#' + (it.n + 1) + "</span><span>" + t.length.toLocaleString() + ' chars</span></div><div class="mx-txt">' + (pv ? mxEsc(pv) : "<i>(empty)</i>") + '</div><button class="mx-edit" data-a="str" data-i="' + k + '">' + PENCIL + "edit</button></div>";
+    }
+    ufList.innerHTML = h || '<div class="mx-empty">' + (UF.mode === "str" ? "No quoted strings found. Try Lines, or edit the whole text." : "Nothing matches.") + "</div>";
+    ufCount.textContent = UF.items.length.toLocaleString() + (UF.mode === "str" ? " strings" : " lines");
+    ufMore.classList.toggle("hidden", n >= UF.items.length);
+  }
+  function ufRefresh() { UF.items = ufItems(); UF.shown = 150; ufBody.scrollTop = 0; ufDraw(); }
+  function ufRedraw() { var st = ufBody.scrollTop; UF.items = ufItems(); ufDraw(); ufBody.scrollTop = st; }
+  function ufChips() {
+    Array.prototype.forEach.call(document.querySelectorAll("#ufMode button"), function (b) { b.classList.toggle("on", b.getAttribute("data-m") === UF.mode); });
+    Array.prototype.forEach.call(document.querySelectorAll("#ufFilt button"), function (b) { b.classList.toggle("on", b.getAttribute("data-f") === UF.filt); });
+  }
+
+  function ufAdd(list) {
+    ufErr.classList.add("hidden");
+    var files = Array.prototype.slice.call(list), left = Math.max(0, 40 - UF.files.length);
+    if (!files.length) return;
+    files = files.slice(0, left);
+    Promise.all(files.map(function (f) {
+      if (f.size > 20 * 1048576) return Promise.resolve({ skip: f.name + " is over 20 MB" });
+      return mxReadFile(f).then(function (buf) {
+        var u8 = new Uint8Array(buf), bin = ufIsBinary(u8);
+        return { name: f.name, orig: f.name, u8: u8, binary: bin, text: bin ? "" : mxTD.decode(u8), dirty: false };
+      });
+    })).then(function (rs) {
+      var skipped = [];
+      rs.forEach(function (r) { if (r.skip) skipped.push(r.skip); else UF.files.push(r); });
+      if (skipped.length) { ufErr.textContent = skipped.join(". ") + "."; ufErr.classList.remove("hidden"); }
+      if (UF.files.length) { ufDrawFiles(); ufShow("files"); }
+      else ufShow("land");
+    }).catch(function (e) { ufErr.textContent = (e && e.message) || "Couldn\u2019t read those files."; ufErr.classList.remove("hidden"); });
+  }
+  function ufOpenFile(i) {
+    UF.cur = i; UF.mode = "str"; UF.filt = "all"; UF.q = ""; ufSearch.value = "";
+    ufChips(); ufShow("file"); ufRefresh();
+  }
+
+  function ufOpenSheet(kind, idx) {
+    var f = ufCurFile(); ufEditing = { kind: kind, idx: idx };
+    ufNameIn.classList.toggle("hidden", kind !== "name"); ufTa.classList.toggle("hidden", kind === "name");
+    if (kind === "name") { ufEt.textContent = "Rename file"; ufNameIn.value = f.name; ufBytes.textContent = "Letters, numbers, dots and dashes work best."; }
+    else if (kind === "text") {
+      if (f.text.length > 2000000) { ufSay("Too big to edit as one block. Use Strings or Lines."); return; }
+      ufEt.textContent = "Edit text: " + f.name; ufTa.value = f.text; ufBytes.textContent = f.text.length.toLocaleString() + " characters";
+    } else { var it = UF.items[idx]; ufEt.textContent = (UF.mode === "str" ? "Edit string #" : "Edit line #") + (it.n + 1); ufTa.value = f.text.slice(it.a, it.b); ufBytes.textContent = ufTa.value.length + " characters"; }
+    ufSaveBtn.disabled = false; ufSheet.classList.remove("hidden");
+    setTimeout(function () { (kind === "name" ? ufNameIn : ufTa).focus(); }, 60);
+  }
+  function ufSheetSave() {
+    var f = ufCurFile(); if (!ufEditing) return;
+    if (ufEditing.kind === "name") {
+      var nn = ufSafeName(ufNameIn.value); f.name = nn;
+      ufSheet.classList.add("hidden"); ufDrawFiles(); ufDraw(); ufSay("renamed"); return;
+    }
+    if (ufEditing.kind === "text") { if (ufTa.value !== f.text) { f.text = ufTa.value; f.dirty = true; } }
+    else { var it = UF.items[ufEditing.idx], nv = ufTa.value; if (nv !== f.text.slice(it.a, it.b)) { f.text = f.text.slice(0, it.a) + nv + f.text.slice(it.b); f.dirty = true; } }
+    ufSheet.classList.add("hidden"); ufDrawFiles(); ufRedraw(); ufSay("saved");
+  }
+
+  document.getElementById("ufClose").addEventListener("click", function () { ufWrap.classList.add("hidden"); });
+  document.getElementById("ufFile").addEventListener("change", function () { var l = this.files; if (l && l.length) ufAdd(l); this.value = ""; });
+  ufFileList.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-a]"); if (!b) return;
+    var i = +b.getAttribute("data-i");
+    if (b.getAttribute("data-a") === "open") ufOpenFile(i);
+    else { UF.files.splice(i, 1); if (UF.files.length) { ufDrawFiles(); } else { ufShow("land"); ufBarUpdate(); } }
+  });
+  document.getElementById("ufBack").addEventListener("click", function () { ufDrawFiles(); ufShow("files"); });
+  document.getElementById("ufRename").addEventListener("click", function () { ufOpenSheet("name"); });
+  document.getElementById("ufEditAll").addEventListener("click", function () { if (ufCurFile().binary) { ufSay("Binary files can only be renamed"); return; } ufOpenSheet("text"); });
+  document.getElementById("ufMode").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; UF.mode = b.getAttribute("data-m"); ufChips(); ufRefresh(); });
+  document.getElementById("ufFilt").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; UF.filt = b.getAttribute("data-f"); ufChips(); ufRefresh(); });
+  ufSearch.addEventListener("input", function () { clearTimeout(ufST); ufST = setTimeout(function () { UF.q = ufSearch.value; ufRefresh(); }, 160); });
+  ufMore.addEventListener("click", function () { UF.shown += 150; ufRedraw(); });
+  ufList.addEventListener("click", function (e) { var b = e.target.closest("[data-a]"); if (b) ufOpenSheet("str", +b.getAttribute("data-i")); });
+  document.getElementById("ufCancel").addEventListener("click", function () { ufSheet.classList.add("hidden"); });
+  ufSaveBtn.addEventListener("click", ufSheetSave);
+  ufTa.addEventListener("input", function () { ufBytes.textContent = ufTa.value.length.toLocaleString() + " characters"; });
+
+  function ufDoExport(forceZip) {
+    if (!UF.files.length) return;
+    ufExportBtn.disabled = true; ufExportZipBtn.disabled = true; ufSay("building\u2026");
+    var used = {}, entries = UF.files.map(function (f) {
+      var nm = ufSafeName(f.name), base = nm, k = 2;
+      while (used[nm.toLowerCase()]) { var d = base.lastIndexOf("."); nm = d > 0 ? base.slice(0, d) + " (" + k + ")" + base.slice(d) : base + " (" + k + ")"; k++; }
+      used[nm.toLowerCase()] = 1;
+      return { name: nm, data: f.dirty ? mxTE.encode(f.text) : f.u8 };
+    });
+    var blob, name, zipped = forceZip || entries.length > 1;
+    try {
+      if (zipped) { blob = new Blob([mxZipMany(entries)], { type: "application/zip" }); name = "edited-files.zip"; }
+      else { blob = new Blob([entries[0].data], { type: "application/octet-stream" }); name = entries[0].name; }
+    } catch (err) { ufSay("export failed: " + (err && err.message || err)); ufBarUpdate(); return; }
+    saveFile(name, blob).then(function (r) { ufSay(saveMsg(r, zipped ? "your files" : name, zipped)); }).then(ufBarUpdate);
+  }
+  ufExportBtn.addEventListener("click", function () { ufDoExport(false); });
+  ufExportZipBtn.addEventListener("click", function () { ufDoExport(true); });
+
+  /* ---------- open the Universal File Editor ---------- */
+  document.getElementById("ufBtn").addEventListener("click", function (e) {
+    e.preventDefault();
+    ufWrap.classList.remove("hidden");
+    ufWrap.classList.remove("mx-enter"); void ufWrap.offsetWidth; ufWrap.classList.add("mx-enter");
+    if (!UF.files.length) ufShow("land");
   });
 
   /* ---------- floating bubbles ---------- */
