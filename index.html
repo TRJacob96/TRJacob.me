@@ -175,8 +175,10 @@ main .btn{box-shadow:calc(var(--px) * 8px) calc(8px + var(--py) * 5px) 20px rgba
 .mbtn:active{transform:scale(.96)}
 .mbtn.yes{background:linear-gradient(135deg,#46c878,#1f9448)}
 .mbtn.no{background:linear-gradient(135deg,#ee5b5f,#b3262b)}
-#settingsBtn{position:fixed;z-index:6;top:calc(env(safe-area-inset-top,0px) + 14px);right:calc(env(safe-area-inset-right,0px) + 14px);width:46px;height:46px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:linear-gradient(135deg,var(--btn1),var(--btn2));color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(50,15,0,.35),inset 0 2px 0 rgba(255,255,255,.4);-webkit-appearance:none}
-#settingsBtn svg{width:24px;height:24px;fill:currentColor;filter:drop-shadow(0 1px 2px rgba(70,25,0,.5))}
+#settingsBtn,#infoBtn{position:fixed;z-index:6;top:calc(env(safe-area-inset-top,0px) + 14px);width:46px;height:46px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:linear-gradient(135deg,var(--btn1),var(--btn2));color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(50,15,0,.35),inset 0 2px 0 rgba(255,255,255,.4);-webkit-appearance:none}
+#settingsBtn{right:calc(env(safe-area-inset-right,0px) + 14px)}
+#infoBtn{left:calc(env(safe-area-inset-left,0px) + 14px)}
+#settingsBtn svg,#infoBtn svg{width:24px;height:24px;fill:currentColor;filter:drop-shadow(0 1px 2px rgba(70,25,0,.5))}
 #scriptsView{width:100%;max-width:340px}
 .card{padding:20px 18px 18px;border-radius:22px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);box-shadow:0 8px 20px rgba(50,15,0,.25)}
 .card-title{font-size:24px;font-weight:800;color:#fff;text-shadow:2px 3px 5px rgba(0,0,0,.35)}
@@ -373,6 +375,9 @@ a.hl{display:inline-block;padding:1px 9px;border-radius:9px;color:#fff;font-weig
 <div id="toast"></div>
 <button id="settingsBtn" class="btn" data-view="settings" aria-label="open settings">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+</button>
+<button id="infoBtn" aria-label="about this site">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
 </button>
 <div id="musicModal" class="hidden">
   <div class="box">
@@ -1937,6 +1942,11 @@ a.hl{display:inline-block;padding:1px 9px;border-radius:9px;color:#fff;font-weig
       toast.classList.add("on"); clearTimeout(tt);
       tt = setTimeout(function () { toast.classList.remove("on"); }, 1800);
     });
+  });
+  var INFO_URL = "https://info.trjacob.me";
+  document.getElementById("infoBtn").addEventListener("click", function (e) {
+    e.preventDefault();
+    window.open(INFO_URL, "_blank");
   });
   document.getElementById("openLookit").addEventListener("click", function (e) {
     e.preventDefault();
